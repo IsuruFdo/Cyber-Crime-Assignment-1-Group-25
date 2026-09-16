@@ -1,0 +1,8 @@
+Welcome to the Document Portal.
+
+This directory (app_files/) is the intended, safe boundary for user file
+downloads. Users should only ever be able to retrieve files from within
+this folder — e.g. welcome.txt, report.pdf, invoice_2026.txt, etc.
+
+The Path Traversal vulnerability in vulnerable_app.py allows an attacker
+to escape this folder and read files elsewhere on the filesystem.
