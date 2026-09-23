@@ -1,0 +1,35 @@
+# Path Traversal
+
+## Description
+
+This folder contains the code files to demonstrate Path traversal vulnerbility in a Flask file download endpoint. The vulnerable version blindly trusts a user-supplied file parameter when building a filesystem path, allowing an atter to escape the intended app.files/ directory using ../ sequences and read arbitrary files walse where on the server.
+
+## Files
+
+**Vulnerable_app.py** - Flask app with an unprotected /download?file= endpoint. Vulnerable to path traversal.
+
+**exploit.py** - sends a legimate request and a traversal attack against vulnerable_app.py, proving the flaw.
+
+**app_files/welcome.txt** - The legimatte, public file the app is intended to serve.
+
+**secret_config.txt** - The dummy sensitive file paced outside app_files/, used to prove the traversal attack works
+
+## Steps to run the program
+
+If you have not installed the packages, run the following command on the terminal,
+
+    python -m pip install flask requests
+
+To run the vulnerable code run the following command,
+
+    python vulnerable_app.py
+
+After running the above command you can view the app on,
+
+    http://127.0.0.1:5000
+
+Moreover you can exit the running app by clicking CTRL + C. Next to run the exploit app, on a new terminal run the following commands.
+
+    python exploit.py
+
+By running the above command the app's vulnerability is exploited and the text in the .txt files are printed in ther terminal.
