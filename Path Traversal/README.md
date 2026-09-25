@@ -14,6 +14,8 @@ This folder contains the code files to demonstrate Path traversal vulnerbility i
 
 **secret_config.txt** - The dummy sensitive file paced outside app_files/, used to prove the traversal attack works
 
+**mitigated_app.py** — Security-enhanced version of the same app. Validates, sanitises, and verifies the resolved path before serving a file, blocking traversal attempts.
+
 ## Steps to run the program
 
 If you have not installed the packages, run the following command on the terminal,
@@ -33,3 +35,21 @@ Moreover you can exit the running app by clicking CTRL + C. Next to run the expl
     python exploit.py
 
 By running the above command the app's vulnerability is exploited and the text in the .txt files are printed in ther terminal.
+
+### 2. Run the mitigated app
+
+To run the security-enhanced version instead, run:
+
+    python mitigated_app.py
+
+This app runs on a different port:
+
+    http://127.0.0.1:5001
+
+In a new terminal, run the exploit script again — this time pointed at the mitigated app's port:
+
+    python exploit.py 5001
+
+The same traversal payload that succeeded against the vulnerable app is now rejected (`400 Bad Request`, "Invalid filename."), confirming the fix works. The legitimate request (`welcome.txt`) still succeeds normally, showing the mitigation does not break intended functionality.
+
+You can stop the app by pressing `CTRL + C` in its terminal.

@@ -9,12 +9,15 @@ This folder contains the code files to demonstrate a Web Cache Poisoning vulnera
     Vulnerable/   - vulnerable_app.py
     exploit/      - exploit.py
     Detection/    - detection and tracing files
+    mitigated/    - app_mitigated.py
 
 ## Files
 
 **Vulnerable/vulnerable_app.py** - Flask app with a `/forgot-password` endpoint that builds a password reset link using the request's Host header and caches the response by URL path only. Vulnerable to web cache poisoning.
 
 **exploit/exploit.py** - sends a poisoning request with a spoofed Host header, followed by a normal, clean request to the same endpoint, proving that the clean request is served the attacker's poisoned link.
+
+**mitigated/app_mitigated.py** - Security-enhanced version of the app. Rejects any request whose Host header is not on an approved allow-list, and includes the host in the cache key as a defence-in-depth measure, preventing the cache from being poisoned.
 
 ## Steps to run the program
 
@@ -37,3 +40,17 @@ Moreover you can exit the running app by clicking CTRL + C. Next, to run the exp
     python exploit.py
 
 By running the above command the app's vulnerability is exploited and the terminal prints the attacker's request, the normal user's request, and whether the exploit succeeded.
+
+## Testing the mitigated version
+ 
+Make sure `vulnerable_app.py` is stopped first (both apps use port 5000). Navigate into the mitigated folder and run the fixed app,
+ 
+    cd mitigated
+    python app_mitigated.py
+ 
+Then, without changing anything, run the same exploit again from the exploit folder,
+ 
+    cd exploit
+    python exploit.py
+ 
+This time the terminal should show that the exploit failed — the app rejects the spoofed Host header and the normal user is served the correct, legitimate reset link.
